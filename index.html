@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>For Lychee 💗</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    text-align: center;
+    overflow: hidden;
+    transition: 0.5s;
+}
+
+/* 🌸 PASTEL LOGIN (DEFAULT) */
+#loginBox {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    background: linear-gradient(135deg, #fceff9, #e0f7fa);
+    color: #333;
+}
+
+/* INPUT */
+input {
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    outline: none;
+    margin-top: 10px;
+}
+
+/* BUTTON */
+button {
+    padding: 10px 20px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    background: #ff7eb9;
+    color: white;
+    font-size: 16px;
+}
+
+button:hover {
+    transform: scale(1.05);
+}
+
+/* 🔴 BREACH MODE */
+.breach {
+    background: radial-gradient(circle, #3a0000, #000000) !important;
+    color: red !important;
+    animation: flicker 0.2s infinite;
+}
+
+@keyframes flicker {
+    0% { filter: brightness(1); }
+    50% { filter: brightness(2); }
+    100% { filter: brightness(1); }
+}
+
+/* glitch shake */
+.glitch {
+    animation: shake 0.1s infinite;
+}
+
+@keyframes shake {
+    0% { transform: translate(2px,2px); }
+    25% { transform: translate(-2px,1px); }
+    50% { transform: translate(2px,-2px); }
+    75% { transform: translate(-1px,2px); }
+    100% { transform: translate(0,0); }
+}
+
+/* MAIN */
+#main, #explorePage, #exitPage {
+    display: none;
+}
+
+/* HEARTS */
+.heart {
+    position: absolute;
+    color: pink;
+    font-size: 20px;
+    animation: floatUp 2s linear forwards;
+}
+
+@keyframes floatUp {
+    from { transform: translateY(0); opacity: 1; }
+    to { transform: translateY(-200px); opacity: 0; }
+}
+</style>
+</head>
+
+<body>
+
+<!-- 🌸 LOGIN -->
+<div id="loginBox">
+    <h2>🌸 Enter Password 🌸</h2>
+    <input type="password" id="pass">
+    <button onclick="checkPass()">Login</button>
+</div>
+
+<!-- MAIN -->
+<div id="main">
+    <h1>Hi You 💗</h1>
+    <button onclick="explore()">Explore</button>
+    <button onclick="fakeExit()">Exit</button>
+</div>
+
+<!-- EXPLORE -->
+<div id="explorePage">
+    <h1>Memories unlocked 💗</h1>
+
+    <iframe style="border-radius:12px"
+    src="https://open.spotify.com/embed/playlist/7hZ9UBozuSzs2ffiPUEO4c?utm_source=generator"
+    width="300" height="352" frameborder="0"></iframe>
+
+    <br>
+    <button onclick="spawnHearts()">Click for love</button>
+</div>
+
+<!-- EXIT -->
+<div id="exitPage">
+    <h1 id="exitText">...</h1>
+</div>
+
+<script>
+
+// ---------- SPEECH ----------
+function speak(text){
+    let msg = new SpeechSynthesisUtterance(text);
+    msg.rate = 0.95;
+    msg.pitch = 1.2;
+    msg.volume = 1;
+    speechSynthesis.speak(msg);
+}
+
+// ---------- PASSWORD SYSTEM ----------
+function checkPass(){
+    let input = document.getElementById("pass").value;
+
+    if(input === "oldman"){
+        document.getElementById("loginBox").style.display = "none";
+        document.getElementById("main").style.display = "block";
+        speak("access granted.");
+    } 
+    else {
+        triggerBreach();
+    }
+}
+
+// ---------- BREACH SEQUENCE ----------
+function triggerBreach(){
+    let box = document.getElementById("loginBox");
+
+    box.classList.add("breach", "glitch");
+
+    speak("warning... unauthorized access detected.");
+
+    setTimeout(()=>{
+        box.innerHTML = `
+            <h2>⚠ SYSTEM BREACH ⚠</h2>
+            <p style="color:red">Wait... that's not the password I gave.</p>
+        `;
+        speak("wait... that's not the password I gave.");
+    }, 1200);
+
+    setTimeout(()=>{
+        speak("so who are you logging in for?");
+    }, 2600);
+
+    // RESET BACK TO NORMAL LOGIN
+    setTimeout(()=>{
+        resetLogin();
+    }, 4500);
+}
+
+// ---------- RESET BACK ----------
+function resetLogin(){
+    let box = document.getElementById("loginBox");
+
+    box.classList.remove("breach", "glitch");
+
+    box.innerHTML = `
+        <h2>🌸 Enter Password 🌸</h2>
+        <input type="password" id="pass">
+        <button onclick="checkPass()">Login</button>
+    `;
+
+    speak("system restored. try again.");
+}
+
+// ---------- EXPLORE ----------
+function explore(){
+    document.getElementById("main").style.display = "none";
+    document.getElementById("explorePage").style.display = "block";
+    speak("careful... memories are heavy.");
+}
+
+// ---------- HEARTS ----------
+function spawnHearts(){
+    for(let i=0;i<25;i++){
+        let heart = document.createElement("div");
+        heart.className = "heart";
+        heart.innerHTML = "💗";
+        heart.style.left = Math.random()*100 + "vw";
+        heart.style.top = "80vh";
+        heart.style.fontSize = Math.random()*20 + 10 + "px";
+        document.body.appendChild(heart);
+        setTimeout(()=>heart.remove(),2000);
+    }
+    speak("too much love detected.");
+}
+
+// ---------- EXIT ----------
+function fakeExit(){
+    document.getElementById("main").style.display = "none";
+    document.getElementById("exitPage").style.display = "block";
+
+    let txt = document.getElementById("exitText");
+
+    txt.innerHTML = "checking exit...";
+
+    speak("attempting exit... denied.");
+
+    setTimeout(()=>{
+        txt.innerHTML = "oh you're leaving? so you have another girl??";
+        speak("oh you're leaving? so you have another girl??");
+
+        setTimeout(()=>{
+            txt.innerHTML = "fine... go then.";
+            speak("k bye remember im cute and youre just aging");
+            playLaugh();
+        }, 2500);
+
+    }, 2000);
+}
+
+// ---------- LAUGH ----------
+function playLaugh(){
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+
+    osc.type = "sawtooth";
+    osc.frequency.setValueAtTime(120, audioCtx.currentTime);
+
+    gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+
+    osc.start();
+
+    setTimeout(()=>osc.frequency.setValueAtTime(300, audioCtx.currentTime),200);
+    setTimeout(()=>osc.frequency.setValueAtTime(180, audioCtx.currentTime),400);
+    setTimeout(()=>osc.frequency.setValueAtTime(350, audioCtx.currentTime),600);
+
+    setTimeout(()=>{
+        osc.stop();
+    }, 900);
+}
+
+</script>
+
+</body>
+</html>
